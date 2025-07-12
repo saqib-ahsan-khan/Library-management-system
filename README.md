@@ -1,72 +1,145 @@
-# Getting Started with Create React App
+# Library Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack library management system built with React frontend and Node.js/Express backend with MongoDB database.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User authentication (Student and Admin roles)
+- Book management (Add, Edit, Delete, Search)
+- Book borrowing and returning system
+- User profile management
+- Borrowing history tracking
+- Fine calculation for overdue books
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Frontend
+- React.js
+- React Router DOM
+- CSS3
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT Authentication
+- bcryptjs for password hashing
 
-### `npm test`
+## Setup Instructions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local installation or MongoDB Atlas)
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository
+```bash
+git clone <repository-url>
+cd library-management-system
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Set up MongoDB
+   - Install MongoDB locally or use MongoDB Atlas
+   - Create a database named `library_management`
 
-### `npm run eject`
+4. Configure environment variables
+   - Copy `backend/config.env` and update the values:
+     - `MONGODB_URI`: Your MongoDB connection string
+     - `JWT_SECRET`: A secure secret key for JWT tokens
+     - `PORT`: Backend server port (default: 5000)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+5. Start the development servers
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   **Option 1: Run both frontend and backend together**
+   ```bash
+   npm run dev
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   **Option 2: Run separately**
+   ```bash
+   # Terminal 1 - Backend
+   npm run server
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+   # Terminal 2 - Frontend
+   npm start
+   ```
 
-## Learn More
+6. Access the application
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:5000
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## API Endpoints
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - User login
 
-### Code Splitting
+### Books
+- `GET /api/books` - Get all books (with search/filter)
+- `GET /api/books/:id` - Get single book
+- `POST /api/books` - Add new book (Admin)
+- `PUT /api/books/:id` - Update book (Admin)
+- `DELETE /api/books/:id` - Delete book (Admin)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Users
+- `GET /api/users/profile/:id` - Get user profile
+- `PUT /api/users/profile/:id` - Update user profile
+- `POST /api/users/borrow` - Borrow a book
+- `POST /api/users/return` - Return a book
+- `GET /api/users/borrowings/:userId` - Get user's borrowing history
+- `GET /api/users` - Get all users (Admin)
 
-### Analyzing the Bundle Size
+## Database Models
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### User
+- name, email, password, role (student/admin)
+- studentId, phone, address
+- isActive status
 
-### Making a Progressive Web App
+### Book
+- title, author, isbn, category
+- description, publishedYear, publisher
+- totalCopies, availableCopies, location
+- isActive status
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Borrowing
+- user, book (references)
+- borrowDate, dueDate, returnDate
+- status (borrowed/returned/overdue)
+- fine amount
 
-### Advanced Configuration
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. **Registration/Login**: Users can register as students or admins
+2. **Book Management**: Admins can add, edit, and delete books
+3. **Book Search**: Users can search books by title, author, or ISBN
+4. **Borrowing**: Students can borrow available books
+5. **Returns**: Students can return borrowed books
+6. **History**: Users can view their borrowing history
+7. **Fines**: Automatic fine calculation for overdue books
 
-### Deployment
+## Development
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The project uses a monorepo structure:
+- `/src` - React frontend
+- `/backend` - Node.js/Express backend
+- `/backend/models` - MongoDB schemas
+- `/backend/routes` - API route handlers
 
-### `npm run build` fails to minify
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-"# Library-management-system" 
-"# Library-management-system" 
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License. 

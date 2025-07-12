@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import './StudentLogin.css';
 
 function StudentLogin() {
@@ -6,6 +8,8 @@ function StudentLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,10 +25,9 @@ function StudentLogin() {
       if (!response.ok) {
         setError(data.message || 'Login failed');
       } else {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        alert('Login successful!');
-        // Redirect to student dashboard here if you have one
+        login(data.user, data.token);
+        alert('Student login successful!');
+        navigate('/student/books');
       }
     } catch (err) {
       setError('Network error');

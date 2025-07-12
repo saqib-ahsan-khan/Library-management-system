@@ -4,7 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Load environment variables
-dotenv.config();
+require('dotenv').config();
 
 const app = express();
 
@@ -14,8 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/library_management';
-
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://saqibahsan220:P1FPgpZu0I7pykTB@cluster0.y6rr2xq.mongodb.net/library_management?retryWrites=true&w=majority';
 mongoose.connect(MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');

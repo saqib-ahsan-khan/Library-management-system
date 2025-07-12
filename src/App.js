@@ -10,11 +10,9 @@ import StudentLogin from './pages/StudentLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ManageBooks from './pages/ManageBooks';
 import ManageStudents from './pages/ManageStudents';
-
-// Placeholder components for remaining pages
-const BorrowRequests = () => <div style={{ padding: 20 }}><h2>Borrow Requests (Admin)</h2></div>;
-const StudentProfile = () => <div style={{ padding: 20 }}><h2>Student Profile</h2></div>;
-const StudentBooks = () => <div style={{ padding: 20 }}><h2>Library Books (Student)</h2></div>;
+import AdminBorrowings from './pages/AdminBorrowings';
+import StudentBooks from './pages/StudentBooks';
+import StudentProfile from './pages/StudentProfile';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -93,10 +91,10 @@ function App() {
             } 
           />
           <Route 
-            path="/admin/requests" 
+            path="/admin/borrowings" 
             element={
               <ProtectedRoute allowedRoles={['admin']}>
-                <BorrowRequests />
+                <AdminBorrowings />
               </ProtectedRoute>
             } 
           />

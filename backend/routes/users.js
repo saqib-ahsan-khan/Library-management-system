@@ -45,7 +45,33 @@ router.put('/profile/:id', async (req, res) => {
   }
 });
 
-// Borrow a book
+// Toggle user status (Admin only)
+router.put('/:id/toggle-status', async (req, res) => {
+  try {
+    const { isActive } = req.body;
+    
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.isActive = isActive;
+    await user.save();
+    
+    const userResponse = user.toObject();
+    delete userResponse.password;
+    
+    res.json({ 
+      message: `User ${isActive ? 'activated' : 'deactivated'} successfully`, 
+      user: userResponse 
+    });
+  } catch (error) {
+    console.error('Toggle user status error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Borrow a book directly
 router.post('/borrow', async (req, res) => {
   try {
     const { userId, bookId, dueDate } = req.body;
@@ -56,17 +82,18 @@ router.post('/borrow', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Check if book exists and is available
+    // Check if book exists
     const book = await Book.findById(bookId);
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
     }
 
+    // Check if book is available
     if (book.availableCopies <= 0) {
-      return res.status(400).json({ message: 'Book is not available' });
+      return res.status(400).json({ message: 'Book is not available for borrowing' });
     }
 
-    // Check if user already borrowed this book
+    // Check if user already has this book borrowed
     const existingBorrowing = await Borrowing.findOne({
       user: userId,
       book: bookId,
@@ -81,7 +108,8 @@ router.post('/borrow', async (req, res) => {
     const borrowing = new Borrowing({
       user: userId,
       book: bookId,
-      dueDate: dueDate || new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) // 14 days default
+      dueDate: dueDate || new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14 days default
+      status: 'borrowed'
     });
 
     await borrowing.save();
@@ -91,7 +119,7 @@ router.post('/borrow', async (req, res) => {
     await book.save();
 
     res.status(201).json({ 
-      message: 'Book borrowed successfully', 
+      message: 'Book borrowed successfully!', 
       borrowing 
     });
   } catch (error) {
@@ -153,6 +181,21 @@ router.get('/borrowings/:userId', async (req, res) => {
     res.json(borrowings);
   } catch (error) {
     console.error('Get borrowings error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Get all borrowings (Admin only)
+router.get('/borrowings/all', async (req, res) => {
+  try {
+    const borrowings = await Borrowing.find({})
+      .populate('user', 'name email')
+      .populate('book', 'title author isbn')
+      .sort({ borrowDate: -1 });
+
+    res.json(borrowings);
+  } catch (error) {
+    console.error('Get all borrowings error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });

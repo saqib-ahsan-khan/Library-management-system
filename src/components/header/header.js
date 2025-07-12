@@ -15,30 +15,33 @@ function Header() {
   return (
     <header className="header">
       <nav>
-        <Link to="/">Home</Link>
-        {user ? (
-          <>
-            {user.role === 'admin' && (
-              <>
-                <Link to="/admin/students">Manage Students</Link>
-                <Link to="/admin/books">Manage Books</Link>
-                <Link to="/admin/requests">Borrow Requests</Link>
-              </>
-            )}
-            {user.role === 'student' && (
-              <>
-                <Link to="/student/profile">Profile</Link>
-                <Link to="/student/books">Library Books</Link>
-              </>
-            )}
-            <button className="logout-btn" onClick={handleLogout}>Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/admin-login">Admin Login</Link>
-            <Link to="/student-login">Student Login</Link>
-          </>
-        )}
+        <Link to="/" className="logo">Library Management System</Link>
+        <div className="nav-links">
+          {user ? (
+            <>
+              {user.role === 'admin' && (
+                <>
+                  <Link to="/admin/dashboard">Dashboard</Link>
+                  <Link to="/admin/students">Manage Students</Link>
+                  <Link to="/admin/books">Manage Books</Link>
+                  <Link to="/admin/borrowings">Borrowings</Link>
+                </>
+              )}
+              {user.role === 'student' && (
+                <>
+                  <Link to="/student/books">Library Books</Link>
+                  <Link to="/student/profile">Profile</Link>
+                </>
+              )}
+              <button className="logout-btn" onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+            <>
+              <Link to="/admin-login">Admin Login</Link>
+              <Link to="/student-login">Student Login</Link>
+            </>
+          )}
+        </div>
       </nav>
     </header>
   );

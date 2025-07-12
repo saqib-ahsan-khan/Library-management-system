@@ -7,7 +7,7 @@ function AdminDashboard() {
   const [stats, setStats] = useState({
     totalBooks: 0,
     totalUsers: 0,
-    pendingRequests: 0,
+    activeBorrowings: 0,
     overdueBooks: 0
   });
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ function AdminDashboard() {
       const users = await usersRes.json();
       const borrowings = borrowingsRes.ok ? await borrowingsRes.json() : [];
 
-      const pendingRequests = borrowings.filter(b => b.status === 'pending').length;
+      const activeBorrowings = borrowings.filter(b => b.status === 'borrowed').length;
       const overdueBooks = borrowings.filter(b => 
         b.status === 'borrowed' && new Date(b.dueDate) < new Date()
       ).length;
@@ -36,7 +36,7 @@ function AdminDashboard() {
       setStats({
         totalBooks: books.length,
         totalUsers: users.length,
-        pendingRequests,
+        activeBorrowings,
         overdueBooks
       });
     } catch (error) {
@@ -75,10 +75,10 @@ function AdminDashboard() {
         </div>
 
         <div className="stat-card">
-          <div className="stat-icon">⏳</div>
+          <div className="stat-icon">📖</div>
           <div className="stat-content">
-            <h3>{stats.pendingRequests}</h3>
-            <p>Pending Requests</p>
+            <h3>{stats.activeBorrowings}</h3>
+            <p>Active Borrowings</p>
           </div>
         </div>
 
@@ -100,8 +100,8 @@ function AdminDashboard() {
           <button className="action-btn" onClick={() => window.location.href = '/admin/students'}>
             Manage Students
           </button>
-          <button className="action-btn" onClick={() => window.location.href = '/admin/requests'}>
-            View Requests
+          <button className="action-btn" onClick={() => window.location.href = '/admin/borrowings'}>
+            View Borrowings
           </button>
         </div>
       </div>

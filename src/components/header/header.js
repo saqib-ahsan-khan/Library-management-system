@@ -24,7 +24,7 @@ function Header() {
                   <Link to="/admin/dashboard">Dashboard</Link>
                   <Link to="/admin/students">Manage Students</Link>
                   <Link to="/admin/books">Manage Books</Link>
-                  <Link to="/admin/borrowings">Borrowings</Link>
+
                 </>
               )}
               {user.role === 'student' && (

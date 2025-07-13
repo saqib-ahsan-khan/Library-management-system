@@ -5,7 +5,6 @@ import './StudentProfile.css';
 function StudentProfile() {
   const { user, login } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
-  const [borrowingHistory, setBorrowingHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,7 +15,6 @@ function StudentProfile() {
 
   useEffect(() => {
     fetchProfile();
-    fetchBorrowingHistory();
   }, []);
 
   const fetchProfile = async () => {
@@ -38,17 +36,7 @@ function StudentProfile() {
     }
   };
 
-  const fetchBorrowingHistory = async () => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/users/borrowings/${user.id}`);
-      if (response.ok) {
-        const data = await response.json();
-        setBorrowingHistory(data);
-      }
-    } catch (error) {
-      console.error('Error fetching borrowing history:', error);
-    }
-  };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -85,17 +73,7 @@ function StudentProfile() {
     }
   };
 
-  const calculateFine = (borrowing) => {
-    if (borrowing.status === 'borrowed' && new Date(borrowing.dueDate) < new Date()) {
-      const daysOverdue = Math.ceil((new Date() - new Date(borrowing.dueDate)) / (1000 * 60 * 60 * 24));
-      return daysOverdue * 1; // $1 per day
-    }
-    return 0;
-  };
 
-  const totalFine = borrowingHistory.reduce((total, borrowing) => {
-    return total + calculateFine(borrowing);
-  }, 0);
 
   if (loading) {
     return <div className="loading">Loading profile...</div>;
@@ -105,7 +83,7 @@ function StudentProfile() {
     <div className="student-profile">
       <div className="profile-header">
         <h1>Student Profile</h1>
-        <p>Manage your account information and view your borrowing history</p>
+        <p>Manage your account information</p>
       </div>
 
       <div className="profile-content">
@@ -203,90 +181,7 @@ function StudentProfile() {
               </div>
             </div>
           )}
-        </div>
-
-        <div className="profile-section">
-          <h2>Borrowing Summary</h2>
-          <div className="summary-stats">
-            <div className="stat-card">
-              <div className="stat-icon">📚</div>
-              <div className="stat-content">
-                <h3>{borrowingHistory.filter(b => b.status === 'borrowed').length}</h3>
-                <p>Currently Borrowed</p>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">📅</div>
-              <div className="stat-content">
-                <h3>{borrowingHistory.filter(b => 
-                  b.status === 'borrowed' && new Date(b.dueDate) < new Date()
-                ).length}</h3>
-                <p>Overdue Books</p>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">💰</div>
-              <div className="stat-content">
-                <h3>${totalFine.toFixed(2)}</h3>
-                <p>Total Fines</p>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">📖</div>
-              <div className="stat-content">
-                <h3>{borrowingHistory.length}</h3>
-                <p>Total Borrowed</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="profile-section">
-          <h2>Borrowing History</h2>
-          <div className="borrowing-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Book Title</th>
-                  <th>Author</th>
-                  <th>Borrow Date</th>
-                  <th>Due Date</th>
-                  <th>Status</th>
-                  <th>Fine</th>
-                </tr>
-              </thead>
-              <tbody>
-                {borrowingHistory.map(borrowing => {
-                  const fine = calculateFine(borrowing);
-                  const isOverdue = borrowing.status === 'borrowed' && new Date(borrowing.dueDate) < new Date();
-                  
-                  return (
-                    <tr key={borrowing._id} className={isOverdue ? 'overdue-row' : ''}>
-                      <td>{borrowing.book.title}</td>
-                      <td>{borrowing.book.author}</td>
-                      <td>{new Date(borrowing.borrowDate).toLocaleDateString()}</td>
-                      <td>{new Date(borrowing.dueDate).toLocaleDateString()}</td>
-                      <td>
-                        <span className={`status-badge ${borrowing.status}`}>
-                          {borrowing.status === 'borrowed' ? 'Borrowed' : 'Returned'}
-                        </span>
-                      </td>
-                      <td>
-                        {fine > 0 ? `$${fine.toFixed(2)}` : '-'}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-          
-          {borrowingHistory.length === 0 && (
-            <div className="no-history">
-              <p>No borrowing history found.</p>
-            </div>
-          )}
-        </div>
+                </div>
       </div>
     </div>
   );

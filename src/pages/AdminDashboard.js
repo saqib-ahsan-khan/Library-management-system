@@ -6,9 +6,7 @@ function AdminDashboard() {
   const { user } = useContext(AuthContext);
   const [stats, setStats] = useState({
     totalBooks: 0,
-    totalUsers: 0,
-    activeBorrowings: 0,
-    overdueBooks: 0
+    totalUsers: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -18,26 +16,17 @@ function AdminDashboard() {
 
   const fetchDashboardStats = async () => {
     try {
-      const [booksRes, usersRes, borrowingsRes] = await Promise.all([
+      const [booksRes, usersRes] = await Promise.all([
         fetch('http://localhost:5000/api/books'),
-        fetch('http://localhost:5000/api/users'),
-        fetch('http://localhost:5000/api/users/borrowings/all')
+        fetch('http://localhost:5000/api/users')
       ]);
 
       const books = await booksRes.json();
       const users = await usersRes.json();
-      const borrowings = borrowingsRes.ok ? await borrowingsRes.json() : [];
-
-      const activeBorrowings = borrowings.filter(b => b.status === 'borrowed').length;
-      const overdueBooks = borrowings.filter(b => 
-        b.status === 'borrowed' && new Date(b.dueDate) < new Date()
-      ).length;
 
       setStats({
         totalBooks: books.length,
-        totalUsers: users.length,
-        activeBorrowings,
-        overdueBooks
+        totalUsers: users.length
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -74,21 +63,7 @@ function AdminDashboard() {
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">📖</div>
-          <div className="stat-content">
-            <h3>{stats.activeBorrowings}</h3>
-            <p>Active Borrowings</p>
-          </div>
-        </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">⚠️</div>
-          <div className="stat-content">
-            <h3>{stats.overdueBooks}</h3>
-            <p>Overdue Books</p>
-          </div>
-        </div>
       </div>
 
       <div className="quick-actions">
@@ -99,9 +74,6 @@ function AdminDashboard() {
           </button>
           <button className="action-btn" onClick={() => window.location.href = '/admin/students'}>
             Manage Students
-          </button>
-          <button className="action-btn" onClick={() => window.location.href = '/admin/borrowings'}>
-            View Borrowings
           </button>
         </div>
       </div>

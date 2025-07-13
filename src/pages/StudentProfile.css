@@ -162,106 +162,9 @@
   color: #7f8c8d;
 }
 
-.summary-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-}
 
-.stat-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  transition: transform 0.2s ease;
-}
 
-.stat-card:hover {
-  transform: translateY(-2px);
-}
 
-.stat-icon {
-  font-size: 2rem;
-  margin-right: 1rem;
-  width: 50px;
-  text-align: center;
-}
-
-.stat-content h3 {
-  color: #2c3e50;
-  font-size: 1.8rem;
-  margin: 0 0 0.25rem 0;
-  font-weight: 600;
-}
-
-.stat-content p {
-  color: #7f8c8d;
-  margin: 0;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.borrowing-table {
-  overflow-x: auto;
-}
-
-.borrowing-table table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-
-.borrowing-table th,
-.borrowing-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #eee;
-}
-
-.borrowing-table th {
-  background: #f8f9fa;
-  color: #2c3e50;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.borrowing-table tr:hover {
-  background: #f8f9fa;
-}
-
-.overdue-row {
-  background: #fff3cd !important;
-  border-left: 4px solid #ffc107;
-}
-
-.status-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-badge.borrowed {
-  background: #d4edda;
-  color: #155724;
-}
-
-.status-badge.returned {
-  background: #cce5ff;
-  color: #004085;
-}
-
-.no-history {
-  text-align: center;
-  padding: 3rem;
-  color: #7f8c8d;
-}
 
 .loading {
   display: flex;
@@ -298,16 +201,4 @@
     gap: 0.5rem;
   }
   
-  .summary-stats {
-    grid-template-columns: 1fr;
-  }
-  
-  .borrowing-table {
-    font-size: 0.9rem;
-  }
-  
-  .borrowing-table th,
-  .borrowing-table td {
-    padding: 0.5rem;
-  }
 } 

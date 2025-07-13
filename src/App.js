@@ -10,7 +10,7 @@ import StudentLogin from './pages/StudentLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ManageBooks from './pages/ManageBooks';
 import ManageStudents from './pages/ManageStudents';
-import AdminBorrowings from './pages/AdminBorrowings';
+
 import StudentBooks from './pages/StudentBooks';
 import StudentProfile from './pages/StudentProfile';
 
@@ -90,14 +90,7 @@ function App() {
               </ProtectedRoute>
             } 
           />
-          <Route 
-            path="/admin/borrowings" 
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminBorrowings />
-              </ProtectedRoute>
-            } 
-          />
+
           
           {/* Student Routes */}
           <Route 

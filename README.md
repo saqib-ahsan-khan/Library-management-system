@@ -6,10 +6,8 @@ A full-stack library management system built with React frontend and Node.js/Exp
 
 - User authentication (Student and Admin roles)
 - Book management (Add, Edit, Delete, Search)
-- Book borrowing and returning system
 - User profile management
-- Borrowing history tracking
-- Fine calculation for overdue books
+- Book catalog browsing
 
 ## Tech Stack
 
@@ -90,9 +88,6 @@ npm install
 ### Users
 - `GET /api/users/profile/:id` - Get user profile
 - `PUT /api/users/profile/:id` - Update user profile
-- `POST /api/users/borrow` - Borrow a book
-- `POST /api/users/return` - Return a book
-- `GET /api/users/borrowings/:userId` - Get user's borrowing history
 - `GET /api/users` - Get all users (Admin)
 
 ## Database Models
@@ -108,21 +103,16 @@ npm install
 - totalCopies, availableCopies, location
 - isActive status
 
-### Borrowing
-- user, book (references)
-- borrowDate, dueDate, returnDate
-- status (borrowed/returned/overdue)
-- fine amount
+
 
 ## Usage
 
 1. **Registration/Login**: Users can register as students or admins
 2. **Book Management**: Admins can add, edit, and delete books
 3. **Book Search**: Users can search books by title, author, or ISBN
-4. **Borrowing**: Students can borrow available books
-5. **Returns**: Students can return borrowed books
-6. **History**: Users can view their borrowing history
-7. **Fines**: Automatic fine calculation for overdue books
+4. **Book Catalog**: Students can browse and view book details
+5. **User Management**: Admins can manage student accounts
+6. **Profile Management**: Users can update their profile information
 
 ## Development
 

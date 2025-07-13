@@ -116,57 +116,9 @@
   font-size: 0.8rem;
 }
 
-.request-info {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
-}
 
-.request-info.pending {
-  background: #fff3cd;
-  border: 1px solid #ffeaa7;
-}
 
-.request-info.borrowed {
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-}
 
-.request-info.rejected {
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
-}
-
-.pending-status {
-  color: #856404;
-  font-weight: 500;
-  margin: 0;
-}
-
-.rejected-status {
-  color: #721c24;
-  font-weight: 500;
-  margin: 0;
-}
-
-.borrowed-date {
-  color: #155724;
-  margin: 0.25rem 0;
-}
-
-.due-date {
-  color: #155724;
-  font-weight: 500;
-  margin: 0.25rem 0;
-}
-
-.overdue {
-  color: #dc3545;
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin: 0.25rem 0;
-}
 
 .book-actions {
   margin-top: 1rem;
@@ -204,62 +156,11 @@
   box-shadow: none;
 }
 
-.return-btn {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
-}
-
-.return-btn:hover {
-  background: linear-gradient(135deg, #c0392b, #a93226);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
-}
 
 
 
-.borrowing-summary {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-.borrowing-summary h2 {
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
 
-.summary-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-}
-
-.stat-item {
-  text-align: center;
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-}
-
-.stat-label {
-  display: block;
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  display: block;
-  color: #2c3e50;
-  font-size: 2rem;
-  font-weight: 600;
-}
-
-.overdue-count {
-  color: #e74c3c;
-}
 
 .no-books {
   text-align: center;

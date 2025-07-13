@@ -10,9 +10,11 @@ import StudentLogin from './pages/StudentLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import ManageBooks from './pages/ManageBooks';
 import ManageStudents from './pages/ManageStudents';
+import ManageBorrows from './pages/ManageBorrows';
 
 import StudentBooks from './pages/StudentBooks';
 import StudentProfile from './pages/StudentProfile';
+import MyBorrows from './pages/MyBorrows';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -90,6 +92,14 @@ function App() {
               </ProtectedRoute>
             } 
           />
+          <Route 
+            path="/admin/borrows" 
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <ManageBorrows />
+              </ProtectedRoute>
+            } 
+          />
 
           
           {/* Student Routes */}
@@ -106,6 +116,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['student']}>
                 <StudentBooks />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/student/borrows" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <MyBorrows />
               </ProtectedRoute>
             } 
           />

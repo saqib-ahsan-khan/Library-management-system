@@ -9,6 +9,8 @@ function StudentBooks() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
+  const [borrowingBookId, setBorrowingBookId] = useState(null);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     fetchBooks();
@@ -23,6 +25,44 @@ function StudentBooks() {
       console.error('Error fetching books:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleBorrow = async (bookId) => {
+    console.log('Current user in StudentBooks:', user); // Debug log
+    if (!user) {
+      setMessage('Please log in to borrow books');
+      return;
+    }
+
+    setBorrowingBookId(bookId);
+    setMessage('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/borrow', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id, // Use id instead of _id
+          bookId: bookId
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage('Book borrowed successfully! Due date: ' + new Date(data.borrow.dueDate).toLocaleDateString());
+        fetchBooks();
+      } else {
+        setMessage(data.message || 'Failed to borrow book');
+      }
+    } catch (error) {
+      console.error('Error borrowing book:', error);
+      setMessage('Error borrowing book. Please try again.');
+    } finally {
+      setBorrowingBookId(null);
     }
   };
 
@@ -48,6 +88,11 @@ function StudentBooks() {
       <div className="books-header">
         <h1>Library Books</h1>
         <p>Welcome, {user?.name}! Browse and borrow books from our collection.</p>
+        {message && (
+          <div className={`message ${message.includes('successfully') ? 'success' : 'error'}`}>
+            {message}
+          </div>
+        )}
       </div>
 
       <div className="filters">
@@ -95,9 +140,14 @@ function StudentBooks() {
             <div className="book-actions">
               <button 
                 className="borrow-btn"
-                disabled={book.availableCopies <= 0}
+                disabled={book.availableCopies <= 0 || borrowingBookId === book._id}
+                onClick={() => handleBorrow(book._id)}
               >
-                {book.availableCopies > 0 ? 'View Details' : 'Not Available'}
+                {borrowingBookId === book._id
+                  ? 'Borrowing...'
+                  : book.availableCopies > 0
+                    ? 'Borrow Book'
+                    : 'Not Available'}
               </button>
             </div>
           </div>

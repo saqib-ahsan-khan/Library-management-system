@@ -27,11 +27,13 @@ mongoose.connect(MONGODB_URI)
 const authRoutes = require('./routes/auth');
 const bookRoutes = require('./routes/books');
 const userRoutes = require('./routes/users');
+const borrowRoutes = require('./routes/borrow');
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/borrow', borrowRoutes);
 
 // Basic route
 app.get('/', (req, res) => {

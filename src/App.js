@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import { useContext } from 'react';
-import Header from './components/header/Header';
+import Header from './components/header/header';
 import AdminLogin from './pages/AdminLogin';
 import StudentLogin from './pages/StudentLogin';
 import AdminDashboard from './pages/AdminDashboard';
